@@ -1,13 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, Outlet } from "react-router-dom";
-import { logout, selectUser } from "../store/userSlice";
+import { Link, Outlet } from "react-router-dom";
+import { logout } from "../store/userSlice";
+import { SearchInput } from "./SearchInput";
 
 export const Navbar = () => {
-  const user = useSelector(selectUser);
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
-
+  console.log(token);
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");
@@ -26,7 +26,7 @@ export const Navbar = () => {
   const LogoutElement = () => {
     return (
       <li className='nav-item'>
-        <Link to='#' className='nav-link' onClick={handleLogout}>
+        <Link to='/login' className='nav-link' onClick={handleLogout}>
           Log out
         </Link>
       </li>
@@ -43,7 +43,7 @@ export const Navbar = () => {
     );
   };
 
-  console.log(user);
+  // console.log(user);
   return (
     <div className='pb-5'>
       <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
@@ -97,17 +97,7 @@ export const Navbar = () => {
               </li> */}
               {token ? <DashBoardElement /> : null}
             </ul>
-            <form className='d-flex'>
-              <input
-                className='form-control me-2'
-                type='search'
-                placeholder='Search'
-                aria-label='Search'
-              />
-              <button className='btn btn-outline-success' type='submit'>
-                Search
-              </button>
-            </form>
+            <SearchInput />
           </div>
         </div>
       </nav>

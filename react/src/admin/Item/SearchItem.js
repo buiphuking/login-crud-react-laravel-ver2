@@ -1,5 +1,76 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { selectSearchData } from "../../store/itemSlice";
 
 export const SearchItem = () => {
-  return <div>SearchItem</div>;
+  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
+  const searchData = useSelector(selectSearchData);
+
+  const NoResultSearchFound = () => {
+    return (
+      <div>
+        <h1>No Result Search Found</h1>
+      </div>
+    );
+  };
+
+  const TableData = () => {
+    return (
+      <div>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-12'>
+              <div className='card'>
+                <div className='card-header'>
+                  <h4>Items Search</h4>
+                </div>
+                <div className='card-body'>
+                  <table className='table table-bordered table-striped'>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                      </tr>
+                    </thead>
+                    <tbody>{student_HTMLTABLE}</tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (searchData) {
+    var student_HTMLTABLE = "";
+    var id = 1;
+    student_HTMLTABLE = searchData.map((item, index) => {
+      return (
+        <tr key={index}>
+          <td>{id++}</td>
+          <td>{item.name}</td>
+          <td>{item.course}</td>
+        </tr>
+      );
+    });
+  }
+  if (!searchData || searchData.length === 0) {
+    return (
+      <div>
+        <NoResultSearchFound />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <TableData />
+      </div>
+    );
+  }
 };

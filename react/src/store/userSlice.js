@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 const initialState = {
   isLoading: false,
   errorMessage: "",
@@ -11,18 +10,36 @@ const initialState = {
 export const login = createAsyncThunk(
   "user/login",
   async (data, { rejectWithValue }) => {
-    const response = await fetch("http://127.0.0.1:8000/api/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const jsonData = await response.json();
-    if (response.status === 501) {
-      return rejectWithValue(jsonData);
+    // const response = await fetch("http://127.0.0.1:8000/api/token", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+    // const jsonData = await response.json();
+    // if (response.status === 501) {
+    //   return rejectWithValue(jsonData);
+    // }
+    // return jsonData;
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const jsonData = await response.json();
+      if (!response.ok) {
+        // console.log(rejectWithValue(jsonData));
+        return rejectWithValue(jsonData);
+      }
+      // const jsonData = await response.json();
+      return jsonData;
+    } catch (err) {
+      throw rejectWithValue(err.message);
     }
-    return jsonData;
   }
 );
 

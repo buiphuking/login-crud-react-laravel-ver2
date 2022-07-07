@@ -2,18 +2,46 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
-
+import Pagination from "react-js-pagination";
+import { BASE_URL } from "../../config/constant";
 export const ListItem = () => {
   const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState([]);
+  // const [items, setItems] = useState([]);
+
+  const [items, setItems] = useState({
+    value: "",
+    items: "",
+    activePage: 1,
+    itemsCountPerPage: 0,
+    totalItemsCount: 0,
+    pageRangeDisplayed: 5,
+  });
   useEffect(() => {
-    axios.get(`/api/item/list`).then((res) => {
+    axios.get(`/api/item/list?page=${items.activePage}`).then((res) => {
       if (res.status === 200) {
-        setItems(res.data.items);
+        setItems({
+          value: "",
+          items: res.data.items.data,
+          activePage: res.data.items.current_page,
+          itemsCountPerPage: res.data.items.per_page,
+          totalItemsCount: res.data.items.total,
+          pageRangeDisplayed: 5,
+        });
         setLoading(false);
       }
+      // console.log(res.data.items.data);
     });
-  }, []);
+  }, [items.activePage]);
+  console.log(items);
+
+  const handlePageChange = (pageNumber) => {
+    axios.get(`${BASE_URL}/item/list?page=${pageNumber}`).then((res) => {
+      setItems({
+        items: res.data.items.data,
+        activePage: res.data.items.current_page,
+      });
+    });
+  };
 
   const deleteStudent = (e, id) => {
     e.preventDefault();
@@ -36,7 +64,7 @@ export const ListItem = () => {
   } else {
     var student_HTMLTABLE = "";
     var id = 1;
-    student_HTMLTABLE = items.map((item, index) => {
+    student_HTMLTABLE = items.items.map((item, index) => {
       return (
         <tr key={index}>
           <td>{id++}</td>
@@ -96,6 +124,20 @@ export const ListItem = () => {
                   </thead>
                   <tbody>{student_HTMLTABLE}</tbody>
                 </table>
+                <Pagination
+                  activePage={items.activePage}
+                  itemsCountPerPage={items.itemsCountPerPage}
+                  totalItemsCount={items.totalItemsCount}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                  itemClass='page-item'
+                  linkClass='page-link'
+                  // activePage={this.state.activePage}
+                  // itemsCountPerPage={this.state.itemsCountPerPage}
+                  // totalItemsCount={this.state.totalItemsCount}
+                  // pageRangeDisplayed={5}
+                  // onChange={this.handlePageChange}
+                />
               </div>
             </div>
           </div>

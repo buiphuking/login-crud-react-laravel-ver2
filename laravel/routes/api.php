@@ -22,6 +22,7 @@ Route::post('/item/add', [ItemController::class, 'store']);
 Route::get('/item/edit/{id}', [ItemController::class, 'edit']);
 Route::put('/item/update/{id}', [ItemController::class, 'update']);
 Route::delete('/item/delete/{id}', [ItemController::class, 'destroy']);
+Route::get('/item/search', [ItemController::class, 'search']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

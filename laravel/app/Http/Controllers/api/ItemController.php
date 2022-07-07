@@ -11,7 +11,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::all();
+        $items = Item::orderBy('name', 'desc')->paginate(1);
         return response()->json([
             'status' => 200,
             'items' => $items,
@@ -106,6 +106,26 @@ class ItemController extends Controller
                 'status' => 404,
                 'message' => 'No Item ID Found',
             ]);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $items = Item::where('name', 'like', '%' . $keyword . '%')->get();
+        if ($items) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Item Search Successfully',
+                'items' => $items,
+                'keyword' => $keyword
+            ])->setStatusCode(200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Item Name Found',
+                'keyword' => $keyword
+            ])->setStatusCode(404);
         }
     }
 }

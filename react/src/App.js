@@ -8,6 +8,7 @@ import { ListItem } from "./admin/Item/ListItem";
 import { EditItem } from "./admin/Item/EditItem";
 import { Dashboard } from "./pages/Dashboard";
 import { NotFound } from "./pages/NotFound";
+import { SearchItem } from "./admin/Item/SearchItem";
 axios.defaults.baseURL = "http://localhost:8000/";
 function App() {
   function PrivateOutlet() {
@@ -27,6 +28,7 @@ function App() {
               <Route path='item/add' element={<AddItem />} />
               <Route path='item/list' element={<ListItem />} />
               <Route path='item/edit/:id' element={<EditItem />} />
+              <Route path='search' element={<SearchItem />} />
             </Route>
             <Route path='*' element={<NotFound />} />
           </Route>

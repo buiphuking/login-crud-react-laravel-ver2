@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { SERVER_URL_API } from "../config/constant";
+
 const initialState = {
   isLoading: false,
   searchData: null,
@@ -10,7 +12,7 @@ export const searchItem = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/item/search?keyword=${data.keyword}`,
+        `${SERVER_URL_API}/item/search?keyword=${data.keyword}`,
 
         {
           method: "GET",

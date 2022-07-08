@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { SERVER_URL_API } from "../config/constant";
+
 const initialState = {
   isLoading: false,
   errorMessage: "",
@@ -10,20 +12,8 @@ const initialState = {
 export const login = createAsyncThunk(
   "user/login",
   async (data, { rejectWithValue }) => {
-    // const response = await fetch("http://127.0.0.1:8000/api/token", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(data),
-    // });
-    // const jsonData = await response.json();
-    // if (response.status === 501) {
-    //   return rejectWithValue(jsonData);
-    // }
-    // return jsonData;
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/token", {
+      const response = await fetch(`${SERVER_URL_API}/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

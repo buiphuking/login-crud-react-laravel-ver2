@@ -1,12 +1,9 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+
 import { selectSearchData } from "../../store/itemSlice";
 
 export const SearchItem = () => {
-  const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState([]);
   const searchData = useSelector(selectSearchData);
 
   const NoResultSearchFound = () => {

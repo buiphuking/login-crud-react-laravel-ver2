@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
 import Pagination from "react-js-pagination";
-import { BASE_URL } from "../../config/constant";
+import { SERVER_URL_API } from "../../config/constant";
 export const ListItem = () => {
   const [loading, setLoading] = useState(true);
-  // const [items, setItems] = useState([]);
-
   const [items, setItems] = useState({
     value: "",
     items: "",
@@ -20,7 +18,6 @@ export const ListItem = () => {
     axios.get(`/api/item/list?page=${items.activePage}`).then((res) => {
       if (res.status === 200) {
         setItems({
-          value: "",
           items: res.data.items.data,
           activePage: res.data.items.current_page,
           itemsCountPerPage: res.data.items.per_page,
@@ -35,7 +32,7 @@ export const ListItem = () => {
   console.log(items);
 
   const handlePageChange = (pageNumber) => {
-    axios.get(`${BASE_URL}/item/list?page=${pageNumber}`).then((res) => {
+    axios.get(`${SERVER_URL_API}/item/list?page=${pageNumber}`).then((res) => {
       setItems({
         items: res.data.items.data,
         activePage: res.data.items.current_page,
@@ -132,11 +129,6 @@ export const ListItem = () => {
                   onChange={handlePageChange}
                   itemClass='page-item'
                   linkClass='page-link'
-                  // activePage={this.state.activePage}
-                  // itemsCountPerPage={this.state.itemsCountPerPage}
-                  // totalItemsCount={this.state.totalItemsCount}
-                  // pageRangeDisplayed={5}
-                  // onChange={this.handlePageChange}
                 />
               </div>
             </div>

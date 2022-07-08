@@ -17,8 +17,6 @@ export const SearchInput = () => {
         navigate("/dashboard/search");
       }
     });
-
-    // console.log({ keyword: keyword });
   };
   return (
     <div>
